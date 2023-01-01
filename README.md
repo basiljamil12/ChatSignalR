@@ -1,1 +1,1 @@
-Chat web application using SignalR
+Chat web application using SignalR.
