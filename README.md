@@ -1,2 +1,1 @@
-# ChatSignalR
-# ChatSignalR
+#Chat web application using SignalR
