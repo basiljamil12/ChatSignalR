@@ -1,0 +1,35 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>Chat Bot</title>
+</head>
+<body>
+    <input type="text" id="message" />
+    <input type="button" id="sendmessage" value="Send" />
+    <input type="hidden" id="displayname" />
+    <ul id="discussion"></ul>
+
+    <script src="Scripts/jquery-3.4.1.min.js"></script>
+    <script src="Scripts/jquery.signalR-2.2.2.min.js"></script>
+    <script src="signalr/hubs"></script>
+    <script type="text/javascript">
+        $(function () {
+            var chat = $.connection.chatHub;
+            chat.client.broadcastMessage = function (name, message) {
+                var encodeName = $('<div />').text(name).html();
+                var encodeMsg = $('<div />').text(message).html();
+                $('#discussion').append('<p><strong>' + encodeName + '</strong>&nbsp;&nbsp;&nbsp;' + encodeMsg + '</p>');
+            };
+            $('#displayname').val(prompt('enter your name:', ""));
+            $('#message').focus();
+            $.connection.hub.start().done(function () {
+                $('#sendmessage').click(function () {
+                    chat.server.send($('#displayname').val(), $('#message').val());
+                    $('#message').val('').focus();
+                });
+            });
+        });
+    </script>
+</body>
+</html>
